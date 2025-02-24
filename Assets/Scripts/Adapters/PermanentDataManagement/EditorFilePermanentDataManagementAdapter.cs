@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using DefaultNamespace.Services.Interfaces;
@@ -12,8 +13,6 @@ namespace DefaultNamespace.Services.Adapters.PermanentDataManagement
         private static readonly string Date = System.DateTime.Now.ToString("yyyyMMdd");
 
         private static readonly string Path = System.IO.Path.Combine(Application.dataPath, "StreamingAssets/Report" + Date + ".txt");
-
-        private readonly StreamWriter _writer = new(Path, true);
         
         public void LoadSingleData(string key)
         {
@@ -34,6 +33,8 @@ namespace DefaultNamespace.Services.Adapters.PermanentDataManagement
         {
             Debug.Log("File save in: " + Path);
 
+            StreamWriter _writer = new(Path, true);
+
             _writer.WriteLine(SessionId, Encoding.UTF8);
             
             foreach (var element in dataCollection)
@@ -43,6 +44,19 @@ namespace DefaultNamespace.Services.Adapters.PermanentDataManagement
                 _writer.WriteLine(stringToSave, Encoding.UTF8);
             }
             _writer.Close();
+        }
+
+        public void SaveJsonData(string jsonData)
+        {
+            //TODO: test if it works!
+            
+            Debug.Log("Writing json in file: " + Path);
+
+            StreamWriter writer = new(Path, true);
+            writer.Write(jsonData);
+            writer.Close();
+                
+            Debug.Log("File created");
         }
     }
 }

@@ -11,8 +11,15 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Scene01.unity
     guid: f2105e665e9b8f940b4ac0e0d92c0e46
+  - enabled: 1
+    path: Assets/Samples/XR Interaction Toolkit/2.6.4/Spatial Keyboard/KeyboardDemo.unity
+    guid: ad3bc6be3dfc6fe4c93410327d58b369
+  - enabled: 1
+    path: Assets/Samples/XR Interaction Toolkit/2.6.4/Starter Assets/DemoScene.unity
+    guid: 319dafa5c80f29f428dc1e0d03f04177
   m_configObjects:
     Unity.XR.Oculus.Settings: {fileID: 11400000, guid: a3851ac05a0a1ee45a073d4041edd627, type: 2}
+    com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 8a7d82e0aa4589847adee720395bbf60, type: 3}
     com.unity.xr.arfoundation.simulation_settings: {fileID: 11400000, guid: ef49f8e44a9929b42b3950ea5584fc18, type: 2}
     com.unity.xr.management.loader_settings: {fileID: 11400000, guid: 261a8fcf680d1e444a3556f81f244464, type: 2}
     com.unity.xr.openxr.settings4: {fileID: 11400000, guid: a2f1a0653682c134cb35e0b3a993ec40, type: 2}

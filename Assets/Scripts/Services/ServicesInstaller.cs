@@ -28,8 +28,6 @@ namespace Services
             ServiceLocator.RegisterService(analyticsStorage);
 
             SetupDataManagement();
-
-            
         }
         
         private void SetupDataManagement()
@@ -37,7 +35,7 @@ namespace Services
             
             if (Application.platform == RuntimePlatform.Android)
             {
-                var oculusPermanentDataStorage = new OculusFilePermanentDataManagementAdapter();
+                var oculusPermanentDataStorage = new AndroidFilePermanentDataManagementAdapter();
                 ServiceLocator.RegisterService<IPermanentDataManagement>(oculusPermanentDataStorage);
                 return;
             }
