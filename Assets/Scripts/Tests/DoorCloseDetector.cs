@@ -1,6 +1,3 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class DoorCloseDetector : MonoBehaviour
@@ -8,19 +5,18 @@ public class DoorCloseDetector : MonoBehaviour
     [SerializeField] private DoorChecker doorChecker;
     private bool _doorIsClosed = true;
 
-    private void Start()
-    {
-        doorChecker.IsClosed = _doorIsClosed;
-    }
-
     private void OnTriggerEnter(Collider other)
     {
-        if (_doorIsClosed)
+        if (!other.gameObject.CompareTag("Door"))
         {
             return;
         }
         
-        doorChecker.IsClosed = true;
+        if (_doorIsClosed)
+        {
+            return;
+        }
+
         _doorIsClosed = true;
             
         doorChecker.CloseDoor();
@@ -29,8 +25,13 @@ public class DoorCloseDetector : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
+        if (!other.gameObject.CompareTag("Door"))
+        {
+            return;
+        }
+
         _doorIsClosed = false;
-        doorChecker.IsClosed = false;
+
         Debug.Log("My debug: door is open");
     }
 }

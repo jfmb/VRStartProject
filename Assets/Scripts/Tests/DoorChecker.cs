@@ -10,37 +10,46 @@ public class DoorChecker : MonoBehaviour
     [SerializeField] private GameObject handleDetector;
     [SerializeField] private DoorHandle doorHandle;
     [SerializeField] private HingeJoint doorJoint;
-    
-    public bool IsLocked { get; set; }
-
-    public bool IsClosed { get; set; }
 
     private void Start()
     {
+        SetDoorMaxLimitTo(0f);
+    }
+
+    private void SetDoorMaxLimitTo(float newValue)
+    {
         var limits = doorJoint.limits;
-        limits.max = 0f;
+        limits.max = newValue;
         doorJoint.limits = limits;
     }
     
-    public void TryToOpenDoor()
+    public void OpenDoor()
     {
         handleDetector.SetActive(false);
 
-        handleRigidBody.constraints = RigidbodyConstraints.None;
-        var limits = doorJoint.limits;
-        limits.max = 100f;
-        doorJoint.limits = limits;
+        SetHandleConstraintsTo(RigidbodyConstraints.None);
+        
+        SetDoorMaxLimitTo(100f);
     }
 
+    private void SetHandleConstraintsTo(RigidbodyConstraints newConstraints)
+    {
+        handleRigidBody.constraints = newConstraints;
+    }
+    
     public void CloseDoor()
     {
         var limits = doorJoint.limits;
         limits.max = 0f;
         doorJoint.limits = limits;
         
-        handleDetector.SetActive(true);
-        handleRigidBody.constraints = RigidbodyConstraints.FreezePositionZ;
-        
-        IsClosed = true;
+        SetHandleConstraintsTo(RigidbodyConstraints.FreezePositionZ);
+        StartCoroutine(EnableHandleDetectorAfterSeconds());
     }
+
+    IEnumerator EnableHandleDetectorAfterSeconds()
+    {
+        yield return new WaitForSeconds(05f);
+        handleDetector.SetActive(true);
+    } 
 }
