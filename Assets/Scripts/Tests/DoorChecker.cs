@@ -4,16 +4,15 @@ using UnityEngine;
 
 public class DoorChecker : MonoBehaviour
 {
-    [SerializeField] private HingeJoint handleJoint;
-    [SerializeField] private Rigidbody doorRigidBody;
     [SerializeField] private Rigidbody handleRigidBody;
     [SerializeField] private GameObject handleDetector;
-    [SerializeField] private DoorHandle doorHandle;
+    [SerializeField] private float doorMinDegrees;
+    [SerializeField] private float doorMaxDegrees;
     [SerializeField] private HingeJoint doorJoint;
 
     private void Start()
     {
-        SetDoorMaxLimitTo(0f);
+        SetDoorMaxLimitTo(doorMinDegrees);
     }
 
     private void SetDoorMaxLimitTo(float newValue)
@@ -29,7 +28,7 @@ public class DoorChecker : MonoBehaviour
 
         SetHandleConstraintsTo(RigidbodyConstraints.None);
         
-        SetDoorMaxLimitTo(100f);
+        SetDoorMaxLimitTo(doorMaxDegrees);
     }
 
     private void SetHandleConstraintsTo(RigidbodyConstraints newConstraints)
@@ -39,9 +38,7 @@ public class DoorChecker : MonoBehaviour
     
     public void CloseDoor()
     {
-        var limits = doorJoint.limits;
-        limits.max = 0f;
-        doorJoint.limits = limits;
+        SetDoorMaxLimitTo(doorMinDegrees);
         
         SetHandleConstraintsTo(RigidbodyConstraints.FreezePositionZ);
         StartCoroutine(EnableHandleDetectorAfterSeconds());
@@ -49,7 +46,7 @@ public class DoorChecker : MonoBehaviour
 
     IEnumerator EnableHandleDetectorAfterSeconds()
     {
-        yield return new WaitForSeconds(05f);
+        yield return new WaitForSeconds(0.5f);
         handleDetector.SetActive(true);
     } 
 }
