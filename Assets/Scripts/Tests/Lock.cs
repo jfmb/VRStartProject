@@ -4,21 +4,29 @@ using UnityEngine;
 public class Lock : MonoBehaviour
 {
     [SerializeField] private HingeJoint hingeJ;
+    [SerializeField] private KeyDetector keyDetectorOpen;
+    [SerializeField] private KeyDetector keyDetectorClose;
 
     private bool _isKeyOnLock;
 
     private bool _isLockOpen;
 
-    private bool _isFirstTime = true;
+    private bool _isFirstTime;
     
     private Rigidbody _keyRB;
+    
     public void SetupLock(Rigidbody newKeyRB)
     {
+
         _keyRB = newKeyRB;
-        
         hingeJ.connectedBody = _keyRB;
-//        transform.parent = _keyRB.transform;
+
         _isKeyOnLock = true;
+
+        _isFirstTime = true;
+        
+        keyDetectorOpen.SetColliderWithValue(true);
+        keyDetectorClose.SetColliderWithValue(true);
     }
 
     public void SetLockOpenWith(bool newValue)
@@ -49,5 +57,13 @@ public class Lock : MonoBehaviour
             return;
         }
     }
-    
+
+    public void ResetLock()
+    {
+        _isKeyOnLock = true;
+
+        _isFirstTime = true;
+        keyDetectorOpen.SetColliderWithValue(false);
+        keyDetectorClose.SetColliderWithValue(false);
+    }
 }

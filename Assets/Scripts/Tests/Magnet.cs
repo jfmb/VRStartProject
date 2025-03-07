@@ -11,37 +11,40 @@ public class Magnet : MonoBehaviour
     [SerializeField] private Lock lockForKey;
     
     private bool _keyIsPresent;
-    
+
     private void OnTriggerEnter(Collider other)
     {
-        Debug.Log("My debug: magnet detected " + other.tag );
         if (_keyIsPresent)
         {
             return;
         }
+        Debug.Log("My debug: magnet detected " + other.tag );
         
         var otherGameObject = other.gameObject;
         if (!otherGameObject.CompareTag("Key"))
         {
             return;
         }
+        
+        _keyIsPresent = true;
+
         Debug.Log("My debug: key detected");
         
         ForceDropObject(other.gameObject);
-//        StartCoroutine(DisableIsKinematicAfterOneFrame(otherGameObject));
-
-        var objectToDestroy = otherGameObject.transform.parent;
-
+        
         var newObject = Instantiate(objectToInstantiate);
+   
         newObject.transform.position = gameObject.transform.position;
         newObject.transform.rotation = gameObject.transform.rotation;
         
+        var objectToDestroy = otherGameObject.transform;
         Destroy(objectToDestroy.gameObject);
-        _keyIsPresent = true;
-
+        
         var rb = newObject.GetComponent<Rigidbody>();
         rb.constraints = RigidbodyConstraints.FreezePosition;
+        
         lockForKey.SetupLock(rb);
+
     }
 
     private void ForceDropObject(GameObject otherGameObject)
@@ -73,14 +76,16 @@ public class Magnet : MonoBehaviour
             return;
         }
         
-        _keyIsPresent = false;
+        Debug.Log("My debug: key exited the magnet ");
+
+        StartCoroutine(ResetMagnetAndLockAfterSeconds());
     }
 
-    IEnumerator DisableIsKinematicAfterOneFrame(GameObject otherGameObject)
+    IEnumerator ResetMagnetAndLockAfterSeconds()
     {
-        otherGameObject.GetComponentInParent<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll;
-        yield return new WaitForSeconds(1f);
-        otherGameObject.GetComponentInParent<Rigidbody>().constraints = RigidbodyConstraints.None;
+        yield return new WaitForSeconds(2f);
+        _keyIsPresent = false;
 
+        lockForKey.ResetLock();
     }
 }

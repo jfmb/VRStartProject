@@ -4,7 +4,20 @@ public class KeyDetector : MonoBehaviour
 {
     [SerializeField] private bool isOpenLock;
     [SerializeField] private Lock lockForKey;
+
+    private Collider _keyDetectorCollider;
     
+    
+    private void Start()
+    {
+        _keyDetectorCollider = gameObject.GetComponent<Collider>();
+        _keyDetectorCollider.enabled = false;
+    }
+
+    public void SetColliderWithValue(bool newValue)
+    {
+        _keyDetectorCollider.enabled = newValue;
+    }
     
     private void OnTriggerEnter(Collider other)
     {
