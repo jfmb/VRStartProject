@@ -3,8 +3,14 @@ using UnityEngine;
 public class DoorHandleDetector : MonoBehaviour
 {
     [SerializeField] private DoorChecker doorChecker;
-    [SerializeField] private bool isLocked; 
+    
+    private bool _isLocked;
 
+    public void SetIsLockedWith(bool newValue)
+    {
+        _isLocked = newValue;
+    }
+    
     private void OnTriggerEnter(Collider other)
     {
         if (!other.gameObject.CompareTag("Handle"))
@@ -12,7 +18,7 @@ public class DoorHandleDetector : MonoBehaviour
             return;
         }
 
-        if (isLocked)
+        if (_isLocked)
         {
             return;
         }

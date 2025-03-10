@@ -78,14 +78,7 @@ public class Magnet : MonoBehaviour
         
         Debug.Log("My debug: key exited the magnet ");
 
-        StartCoroutine(ResetMagnetAndLockAfterSeconds());
-    }
-
-    IEnumerator ResetMagnetAndLockAfterSeconds()
-    {
-        yield return new WaitForSeconds(2f);
         _keyIsPresent = false;
-
         lockForKey.ResetLock();
     }
 }
