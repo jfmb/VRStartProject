@@ -1,7 +1,5 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 public class DoorChecker : MonoBehaviour
 {
@@ -10,15 +8,25 @@ public class DoorChecker : MonoBehaviour
     [SerializeField] private float doorMinDegrees;
     [SerializeField] private float doorMaxDegrees;
     [SerializeField] private HingeJoint doorJoint;
-    [SerializeField] private GameObject realLock;
     [SerializeField] private GameObject fakeLock;
     [SerializeField] private Lock doorLock;
-    
+
+    private GameObject _realLock;
+
     private void Start()
     {
         SetDoorMaxLimitTo(doorMinDegrees);
-
         fakeLock.SetActive(false);
+
+        if (!DoorHasLock())
+        {
+            return;
+        }
+        
+        _realLock = doorLock.transform.parent.gameObject;
+        _realLock.SetActive(true);
+        
+        InjectHandleDetectorToLock();
     }
 
     private void SetDoorMaxLimitTo(float newValue)
@@ -26,6 +34,16 @@ public class DoorChecker : MonoBehaviour
         var limits = doorJoint.limits;
         limits.max = newValue;
         doorJoint.limits = limits;
+    }
+
+    private bool DoorHasLock()
+    {
+        return doorLock;
+    }
+    
+    private void InjectHandleDetectorToLock()
+    {
+        doorLock.InjectHandleDetector(handleDetector.GetComponent<DoorHandleDetector>());
     }
     
     public void OpenDoor()
@@ -41,12 +59,12 @@ public class DoorChecker : MonoBehaviour
 
     private void SetLockObjectWith(bool newValue)
     {
-        if (!realLock)
+        if (!_realLock)
         {
             return;
         }
 
-        realLock.SetActive(newValue);
+        _realLock.SetActive(newValue);
         doorLock.MakeKeyKinematicWith(newValue);
 
         fakeLock.SetActive(!newValue);

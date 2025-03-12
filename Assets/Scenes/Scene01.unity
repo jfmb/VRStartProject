@@ -347,7 +347,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &330599632
 Transform:
   m_ObjectHideFlags: 0
@@ -357,14 +357,14 @@ Transform:
   m_GameObject: {fileID: 330599631}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -1.2844874, y: 1.121, z: -0.039}
+  m_LocalPosition: {x: 0.072999954, y: -0.101611495, z: 0.024}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 871415918}
   - {fileID: 421000197}
   - {fileID: 1156700824}
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 2096917664}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &388212962
 GameObject:
@@ -1470,7 +1470,7 @@ MonoBehaviour:
   hingeJ: {fileID: 871415924}
   keyDetectorOpen: {fileID: 421000201}
   keyDetectorClose: {fileID: 1156700828}
-  handleDetector: {fileID: 1239101608}
+  handleDetector: {fileID: 0}
 --- !u!59 &871415924
 HingeJoint:
   m_ObjectHideFlags: 0
@@ -1483,7 +1483,7 @@ HingeJoint:
   m_Anchor: {x: 0, y: 0, z: 0}
   m_Axis: {x: 0, y: 0, z: -1}
   m_AutoConfigureConnectedAnchor: 1
-  m_ConnectedAnchor: {x: -0.86, y: 1.121, z: 0.009999998}
+  m_ConnectedAnchor: {x: -1.2844874, y: 1.121, z: -0.039}
   serializedVersion: 2
   m_UseSpring: 0
   m_Spring:
@@ -3845,6 +3845,7 @@ Transform:
   - {fileID: 1239101603}
   - {fileID: 724467117}
   - {fileID: 1072583263}
+  - {fileID: 330599632}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &2096917665
@@ -3864,9 +3865,8 @@ MonoBehaviour:
   doorMinDegrees: 0
   doorMaxDegrees: 100
   doorJoint: {fileID: 724467118}
-  realLock: {fileID: 330599631}
   fakeLock: {fileID: 984287236}
-  doorLock: {fileID: 871415923}
+  doorLock: {fileID: 0}
 --- !u!114 &1119029103726044071
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4402,6 +4402,5 @@ SceneRoots:
   - {fileID: 1873632688}
   - {fileID: 2096917664}
   - {fileID: 16968275}
-  - {fileID: 330599632}
   - {fileID: 1647352249}
   - {fileID: 1405393365}

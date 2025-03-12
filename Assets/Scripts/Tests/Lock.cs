@@ -10,9 +10,7 @@ public class Lock : MonoBehaviour
     [SerializeField] private DoorHandleDetector handleDetector;
 
     private bool _isKeyOnLock;
-
     private bool _isLockOpen;
-
     private bool _isFirstTime;
     
     private Rigidbody _keyRB;
@@ -25,6 +23,16 @@ public class Lock : MonoBehaviour
             return;
         }
         handleDetector.SetIsLockedWith(true);
+    }
+
+    public void InjectHandleDetector(DoorHandleDetector hD)
+    {
+        if (!hD)
+        {
+            return;
+        }
+        
+        handleDetector = hD;
     }
     
     public void SetupLock(Rigidbody newKeyRB)
