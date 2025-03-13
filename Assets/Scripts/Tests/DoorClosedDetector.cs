@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class DoorCloseDetector : MonoBehaviour
+public class DoorClosedDetector : MonoBehaviour
 {
     [SerializeField] private DoorChecker doorChecker;
     private bool _doorIsClosed = true;

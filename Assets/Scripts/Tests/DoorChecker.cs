@@ -18,15 +18,7 @@ public class DoorChecker : MonoBehaviour
         SetDoorMaxLimitTo(doorMinDegrees);
         fakeLock.SetActive(false);
 
-        if (!DoorHasLock())
-        {
-            return;
-        }
-        
-        _realLock = doorLock.transform.parent.gameObject;
-        _realLock.SetActive(true);
-        
-        InjectHandleDetectorToLock();
+        SetupThingsIfItHasLock();
     }
 
     private void SetDoorMaxLimitTo(float newValue)
@@ -36,9 +28,27 @@ public class DoorChecker : MonoBehaviour
         doorJoint.limits = limits;
     }
 
+    private void SetupThingsIfItHasLock()
+    {
+        if (!DoorHasLock())
+        {
+            return;
+        }
+        
+        SetupTheRealLock();
+        InjectHandleDetectorToLock();
+    }
+    
+    
     private bool DoorHasLock()
     {
         return doorLock;
+    }
+
+    private void SetupTheRealLock()
+    {
+        _realLock = doorLock.transform.parent.gameObject;
+        _realLock.SetActive(true);
     }
     
     private void InjectHandleDetectorToLock()

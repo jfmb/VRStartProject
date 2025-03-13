@@ -15,16 +15,6 @@ public class Lock : MonoBehaviour
     
     private Rigidbody _keyRB;
 
-    private void Start()
-    {
-        if (!handleDetector)
-        {
-            Debug.Log("No handle in inspector.");
-            return;
-        }
-        handleDetector.SetIsLockedWith(true);
-    }
-
     public void InjectHandleDetector(DoorHandleDetector hD)
     {
         if (!hD)
@@ -33,6 +23,7 @@ public class Lock : MonoBehaviour
         }
         
         handleDetector = hD;
+        handleDetector.SetIsLockedWith(true);
     }
     
     public void SetupLock(Rigidbody newKeyRB)
