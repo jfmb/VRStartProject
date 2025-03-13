@@ -5,13 +5,13 @@ using UnityEngine.XR.Interaction.Toolkit;
 public class Magnet : MonoBehaviour
 {
     [SerializeField] private XRInteractionManager interactionManager;
-    [SerializeField] private GameObject magnet;
+    [SerializeField] private Transform transformToMagnet;
     [SerializeField] private GameObject objectToInstantiate;
 
     [SerializeField] private Lock lockForKey;
     
     private bool _keyIsPresent;
-
+    
     private void OnTriggerEnter(Collider other)
     {
         if (_keyIsPresent)
@@ -56,7 +56,7 @@ public class Magnet : MonoBehaviour
             return;
         }
         
-        grabInteractable.transform.position = magnet.transform.position;
+        grabInteractable.transform.position = transformToMagnet.position;
         
         var interactor = grabInteractable.firstInteractorSelecting;
 
