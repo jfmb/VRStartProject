@@ -1,4 +1,3 @@
-using System.Collections;
 using UnityEngine;
 using UnityEngine.XR.Interaction.Toolkit;
 
@@ -9,6 +8,7 @@ public class Magnet : MonoBehaviour
     [SerializeField] private GameObject objectToInstantiate;
 
     [SerializeField] private Lock lockForKey;
+    [SerializeField] private string objectTag;
     
     private bool _keyIsPresent;
     
@@ -21,7 +21,7 @@ public class Magnet : MonoBehaviour
         Debug.Log("My debug: magnet detected " + other.tag );
         
         var otherGameObject = other.gameObject;
-        if (!otherGameObject.CompareTag("Key"))
+        if (!otherGameObject.CompareTag(objectTag))
         {
             return;
         }
@@ -42,9 +42,13 @@ public class Magnet : MonoBehaviour
         
         var rb = newObject.GetComponent<Rigidbody>();
         rb.constraints = RigidbodyConstraints.FreezePosition;
+
+        if (!lockForKey)
+        {
+            return;
+        }
         
         lockForKey.SetupLock(rb);
-
     }
 
     private void ForceDropObject(GameObject otherGameObject)
@@ -71,7 +75,7 @@ public class Magnet : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
-        if (!other.CompareTag("Key"))
+        if (!other.CompareTag(objectTag))
         {
             return;
         }
@@ -79,6 +83,12 @@ public class Magnet : MonoBehaviour
         Debug.Log("My debug: key exited the magnet ");
 
         _keyIsPresent = false;
+        
+        if (!lockForKey)
+        {
+            return;
+        }
+
         lockForKey.ResetLock();
     }
 }

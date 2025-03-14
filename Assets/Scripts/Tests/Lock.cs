@@ -7,7 +7,8 @@ public class Lock : MonoBehaviour
     [SerializeField] private HingeJoint hingeJ;
     [SerializeField] private KeyDetector keyDetectorOpen;
     [SerializeField] private KeyDetector keyDetectorClose;
-    [SerializeField] private DoorHandleDetector handleDetector;
+    
+    private DoorHandleDetector _handleDetector;
 
     private bool _isKeyOnLock;
     private bool _isLockOpen;
@@ -22,8 +23,8 @@ public class Lock : MonoBehaviour
             return;
         }
         
-        handleDetector = hD;
-        handleDetector.SetIsLockedWith(true);
+        _handleDetector = hD;
+        _handleDetector.SetIsLockedWith(true);
     }
     
     public void SetupLock(Rigidbody newKeyRB)
@@ -64,12 +65,12 @@ public class Lock : MonoBehaviour
         {
             _keyRB.constraints = RigidbodyConstraints.None;
             hingeJ.connectedBody = null;
-            handleDetector.SetIsLockedWith(true);
+            _handleDetector.SetIsLockedWith(true);
 
             return;
         }
         
-        handleDetector.SetIsLockedWith(false);
+        _handleDetector.SetIsLockedWith(false);
     }
 
     public void ResetLock()
