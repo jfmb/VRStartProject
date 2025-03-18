@@ -3,6 +3,7 @@ using UnityEngine.Assertions;
 
 public class KeyDetector : MonoBehaviour
 {
+    [SerializeField] private string tagOfObjectToDetect;
     [SerializeField] private bool isOpenLock;
     
     private Lock _lockForKey;
@@ -27,7 +28,7 @@ public class KeyDetector : MonoBehaviour
     
     private void OnTriggerEnter(Collider other)
     {
-        if (!other.gameObject.CompareTag("KeyDetector"))
+        if (!other.gameObject.CompareTag(tagOfObjectToDetect))
         {
             return;
         }
