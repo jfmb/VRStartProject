@@ -11,6 +11,8 @@ public class DoorChecker : MonoBehaviour
     [SerializeField] private GameObject fakeLock;
     [SerializeField] private Lock doorLock;
 
+    [SerializeField] private GameObject invisibleWall;
+    
     private GameObject _realLock;
 
     private void Start()
@@ -65,6 +67,8 @@ public class DoorChecker : MonoBehaviour
         SetDoorMaxLimitTo(doorMaxDegrees);
         
         SetLockObjectWith(false);
+        
+        invisibleWall.SetActive(false);
     }
 
     private void SetLockObjectWith(bool newValue)
@@ -91,6 +95,8 @@ public class DoorChecker : MonoBehaviour
         
         SetHandleConstraintsTo(RigidbodyConstraints.FreezePositionZ);
         SetLockObjectWith(true);
+        invisibleWall.SetActive(true);
+
         
         StartCoroutine(EnableHandleDetectorAfterFrame());
     }
