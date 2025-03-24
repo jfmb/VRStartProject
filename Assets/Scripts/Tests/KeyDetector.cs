@@ -32,6 +32,7 @@ public class KeyDetector : MonoBehaviour
         {
             return;
         }
+
         _lockForKey.SetLockOpenWith(isOpenLock);
     }
 }

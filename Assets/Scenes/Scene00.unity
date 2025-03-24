@@ -152,7 +152,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   nextSceneEventId: {fileID: 11400000, guid: 569fdff4ddde6f74faf6daf48fb6a7d7, type: 2}
-  nextSceneId: {fileID: 11400000, guid: ad973ac5df0c55e469f32df682638e7f, type: 2}
+  nextSceneId: {fileID: 11400000, guid: 270997dc289152d4d9ad8403001a1ff1, type: 2}
 --- !u!4 &53812922
 Transform:
   m_ObjectHideFlags: 0

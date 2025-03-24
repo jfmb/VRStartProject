@@ -69,7 +69,7 @@ public class Lock : MonoBehaviour
 
             return;
         }
-        
+
         _handleDetector.SetIsLockedWith(false);
     }
 
@@ -78,6 +78,7 @@ public class Lock : MonoBehaviour
         _isKeyOnLock = true;
 
         _isFirstTime = true;
+
         keyDetectorOpen.SetColliderWithValue(false);
         keyDetectorClose.SetColliderWithValue(false);
     }

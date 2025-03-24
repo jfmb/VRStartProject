@@ -92,12 +92,11 @@ public class DoorChecker : MonoBehaviour
         SetHandleConstraintsTo(RigidbodyConstraints.FreezePositionZ);
         SetLockObjectWith(true);
         
-        StartCoroutine(EnableHandleDetectorAfterSeconds());
+        StartCoroutine(EnableHandleDetectorAfterFrame());
     }
 
-    IEnumerator EnableHandleDetectorAfterSeconds()
+    IEnumerator EnableHandleDetectorAfterFrame()
     {
-        // yield return new WaitForSeconds(0.1f);
         yield return new WaitForEndOfFrame();
         handleDetector.SetActive(true);
     } 

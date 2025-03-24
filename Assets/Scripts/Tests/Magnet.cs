@@ -1,66 +1,78 @@
+using System.Collections.Generic;
+using Adapters.DoThingsAfterMagnetObject;
 using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.XR.Interaction.Toolkit;
 
 public class Magnet : MonoBehaviour
 {
-    [SerializeField] private XRInteractionManager interactionManager;
-    [SerializeField] private Transform transformToMagnet;
+    [SerializeField] private Transform transformToMagnetObject;
     [SerializeField] private GameObject objectToInstantiate;
-
     [SerializeField] private Lock lockForKey;
     [SerializeField] private string objectTag;
+
+    [SerializeField] private List<DoThingsAfterMagnetObject> thingsToDoAfterMagnetObject;
     
-    private bool _keyIsPresent;
+    private bool _objectIsPresent;
+
+    private void Start()
+    {
+        if (!transformToMagnetObject)
+        {
+            transformToMagnetObject = transform;
+        }
+        
+        foreach (var element in thingsToDoAfterMagnetObject)
+        {
+            element.Setup();
+        }       
+    }
     
     private void OnTriggerEnter(Collider other)
     {
-        if (_keyIsPresent)
+        if (_objectIsPresent)
         {
             return;
         }
         Debug.Log("My debug: magnet detected " + other.tag );
         
-        var otherGameObject = other.gameObject;
-        if (!otherGameObject.CompareTag(objectTag))
+//        if (!other.gameObject.CompareTag(objectTag))
+        if (!IsTheCorrectObject(other.gameObject))
         {
             return;
         }
         
-        _keyIsPresent = true;
-
-        Debug.Log("My debug: key detected");
+        _objectIsPresent = true;
         
         ForceDropObject(other.gameObject);
+        Destroy(other.gameObject);
         
-        var newObject = Instantiate(objectToInstantiate);
-   
-        newObject.transform.position = gameObject.transform.position;
-        newObject.transform.rotation = gameObject.transform.rotation;
-        
-        var objectToDestroy = otherGameObject.transform;
-        Destroy(objectToDestroy.gameObject);
-        
-        var rb = newObject.GetComponent<Rigidbody>();
-        rb.constraints = RigidbodyConstraints.FreezePosition;
+        var rb= InstantiateNewObject();
+        SetupLock(rb);
 
-        if (!lockForKey)
+        foreach (var element in thingsToDoAfterMagnetObject)
         {
-            return;
+            element.Execute();
         }
-        
-        lockForKey.SetupLock(rb);
     }
 
+    private bool IsTheCorrectObject(GameObject otherGameObject)
+    {
+        return otherGameObject.CompareTag(objectTag);
+    }
+    
     private void ForceDropObject(GameObject otherGameObject)
     {
-        var grabInteractable = otherGameObject.GetComponentInParent<XRGrabInteractable>();
-
+        var grabInteractable = otherGameObject.GetComponent<XRGrabInteractable>();
+        
         if (!grabInteractable)
         {
             return;
         }
+
+        var interactionManager = grabInteractable.interactionManager;
         
-        grabInteractable.transform.position = transformToMagnet.position;
+        grabInteractable.transform.position = transformToMagnetObject.position;
         
         var interactor = grabInteractable.firstInteractorSelecting;
 
@@ -72,6 +84,33 @@ public class Magnet : MonoBehaviour
         
         Debug.Log("My debug: Key is dropped");
     }
+    
+    
+    private Rigidbody InstantiateNewObject()
+    {
+        var newObject = Instantiate(objectToInstantiate);
+   
+        newObject.transform.position = transformToMagnetObject.position;
+        newObject.transform.rotation = transformToMagnetObject.rotation;
+        
+        var rb = newObject.GetComponent<Rigidbody>();
+        rb.constraints = RigidbodyConstraints.FreezePosition;
+        
+        return rb;
+    }
+
+    
+    private void SetupLock(Rigidbody rb)
+    {
+        if (!lockForKey)
+        {
+            return;
+        }
+        
+        lockForKey.SetupLock(rb);
+    }
+
+
 
     private void OnTriggerExit(Collider other)
     {
@@ -82,8 +121,18 @@ public class Magnet : MonoBehaviour
         
         Debug.Log("My debug: key exited the magnet ");
 
-        _keyIsPresent = false;
+        _objectIsPresent = false;
         
+        ResetLock();
+
+        foreach (var element in thingsToDoAfterMagnetObject)
+        {
+            element.Setup();
+        }
+    }
+
+    private void ResetLock()
+    {
         if (!lockForKey)
         {
             return;

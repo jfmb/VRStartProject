@@ -3355,7 +3355,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b2d3964b7d450314bb0da105352cb935, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tagOfObjectToInteract: 
+  tagOfObjectToInteract: Key
   originalColor: {r: 0.9254902, g: 0, b: 0, a: 0}
   colorWhenInteracts: {r: 0.06255453, g: 0.8867924, b: 0.020914912, a: 0}
 --- !u!33 &5911828655525689918
